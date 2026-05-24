@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Plus Jakarta Sans", sans-serif;
+
+  /*
+    Palette
+    Mood: cálida, calmada, premium, confiable.
+
+    Uso recomendado:
+    - brand-cream: fondo principal, cards suaves, empty states, skeletons claros.
+    - brand-lilac: superficies secundarias, badges, chips, hover suave, highlights.
+    - brand-slate: botones primarios, links, iconos activos, progress bars, loaders.
+    - brand-ink: texto principal, headers, navbar, footer, overlays, estados fuertes.
+  */
+
+  /* Fondo app / base cálida */
+  --color-brand-cream: #f3e2d4;
+
+  /* Acento suave / elementos secundarios */
+  --color-brand-lilac: #c5b0cd;
+
+  /* Acción principal / elementos interactivos */
+  --color-brand-slate: #415e72;
+
+  /* Texto fuerte / contraste máximo */
+  --color-brand-ink: #17313e;
+
+  /* Roles semánticos para UI */
+  --color-app-bg: var(--color-brand-cream); /* fondo general */
+  --color-app-surface: #fff8f3; /* cards, modals, inputs */
+  --color-app-surface-muted: var(--color-brand-lilac); /* panels suaves, chips */
+  --color-app-border: #d8c4bc; /* bordes sutiles */
+
+  --color-app-text: var(--color-brand-ink); /* texto principal */
+  --color-app-text-muted: #5f7481; /* texto secundario */
+  --color-app-text-inverse: #fff8f3; /* texto sobre botones oscuros */
+
+  --color-app-primary: var(--color-brand-slate); /* botones primarios */
+  --color-app-primary-hover: #324d60; /* hover botón primario */
+  --color-app-primary-active: #263f50; /* active/pressed */
+
+  --color-app-secondary: var(--color-brand-lilac); /* botones secundarios */
+  --color-app-secondary-hover: #b89fc2; /* hover secundario */
+
+  --color-app-focus: var(--color-brand-slate); /* focus rings accesibles */
+  --color-app-loader: var(--color-brand-slate); /* spinners/loaders */
+  --color-app-overlay: rgb(23 49 62 / 0.6); /* backdrop modal/drawer */
+
+  --color-app-success: #3f7d58; /* completado, checklists done */
+  --color-app-warning: #b7791f; /* avisos, pendientes */
+  --color-app-danger: #a83f39; /* errores, eliminar */
+  --color-app-info: var(--color-brand-slate); /* info, tips */
+
+  /* Animaciones base across app */
+  --animate-fade-in: fade-in 180ms ease-out both;
+  --animate-slide-up: slide-up 220ms ease-out both;
+  --animate-scale-in: scale-in 160ms ease-out both;
+  --animate-soft-pulse: soft-pulse 1.6s ease-in-out infinite;
+  --animate-spin-soft: spin 900ms linear infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes soft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+@layer components {
+  /*
+    Tailwind v4 note:
+    @apply no puede aplicar clases custom como `btn` dentro de otra clase.
+    Por eso usamos selector agrupado para base compartida y cada variante solo define color.
+  */
+
+  /* Base button: mismo tamaño, radio, movimiento, focus y disabled across app */
+  .btn,
+  .btn-primary,
+  .btn-secondary,
+  .btn-danger,
+  .btn-ghost {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-2xl px-4 py-3 font-bold transition duration-150 ease-out hover:-translate-y-px focus:outline-none active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Acción principal: guardar, crear, confirmar, incrementar */
+  .btn-primary {
+    @apply bg-app-primary text-app-text-inverse shadow-lg shadow-app-primary/25 hover:bg-app-primary-hover;
+  }
+
+  /* Acción secundaria: cancelar, reset, volver, filtros */
+  .btn-secondary {
+    @apply border border-app-primary bg-app-text-inverse text-app-primary shadow-lg shadow-app-primary/10 hover:shadow-app-primary/20;
+  }
+
+  /* Acción destructiva: eliminar, borrar checklist, cerrar cuenta */
+  .btn-danger {
+    @apply bg-app-danger text-white shadow-lg shadow-app-danger/20 hover:brightness-90;
+  }
+
+  /* Acción sutil: botones de icono, links visuales, toolbar */
+  .btn-ghost {
+    @apply text-app-primary hover:bg-app-surface-muted/25;
+  }
+}
