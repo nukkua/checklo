@@ -216,7 +216,7 @@ definePage({
               v-for="date in calendarDays"
               :key="toDateKey(date)"
               type="button"
-              class="group min-h-20 border-b border-r border-app-border/75 p-1.5 text-left transition hover:bg-app-surface-muted/25 active:scale-[0.98] sm:min-h-28 sm:p-2.5 lg:min-h-32 lg:p-3"
+              class="group min-h-20 border-b border-r border-app-border/75 p-2.5 text-left transition hover:bg-app-surface-muted/25 active:scale-[0.98] sm:min-h-28 lg:min-h-32 lg:p-3"
               :class="[
                 isCurrentMonth(date) ? 'bg-app-surface' : 'bg-app-surface-muted/20 text-app-text-muted/45',
                 selectedDate === toDateKey(date) ? 'shadow-[inset_0_0_0_2px_#415e72]' : '',
@@ -245,7 +245,7 @@ definePage({
           </div>
         </article>
 
-        <aside class="bg-app-surface shadow-2xl shadow-brand-ink/10 ring-1 ring-app-border p-5  lg:sticky lg:top-6 lg:rounded-4xl lg:p-6">
+        <aside class="bg-app-surface shadow-2xl shadow-brand-ink/10 ring-1 ring-app-border p-5 lg:sticky lg:top-6 lg:rounded-4xl lg:p-6">
           <div class="flex items-start justify-between gap-3">
             <div>
               <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-app-text-muted">Día</p>
