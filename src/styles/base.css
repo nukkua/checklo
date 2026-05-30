@@ -51,7 +51,7 @@
 
   --color-app-success: #3f7d58; /* completado, checklists done */
   --color-app-warning: #b7791f; /* avisos, pendientes */
-  --color-app-danger: #a83f39; /* errores, eliminar */
+  --color-app-danger: #dc2626; /* errores, eliminar */
   --color-app-info: var(--color-brand-slate); /* info, tips */
 
   /* Animaciones base across app */
@@ -94,6 +94,46 @@
   50% { opacity: 0.55; }
 }
 
+@layer base {
+  *,
+  ::before,
+  ::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    min-width: 320px;
+    min-height: 100%;
+    overscroll-behavior-y: none;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100%;
+    overflow-x: hidden;
+    overscroll-behavior-y: none;
+  }
+
+  #app {
+    min-height: 100dvh;
+  }
+
+  button,
+  input,
+  textarea,
+  select,
+  a {
+    touch-action: manipulation;
+  }
+
+  input,
+  textarea,
+  select {
+    font-size: 16px;
+  }
+}
+
 @layer components {
   /*
     Tailwind v4 note:
@@ -107,7 +147,7 @@
   .btn-secondary,
   .btn-danger,
   .btn-ghost {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-2xl px-4 py-3 font-bold transition duration-150 ease-out hover:-translate-y-px focus:outline-none active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50;
+    @apply inline-flex min-h-12 min-w-0 cursor-pointer items-center justify-center whitespace-normal rounded-2xl px-4 py-3 text-center font-bold leading-snug transition duration-150 ease-out hover:-translate-y-px focus:outline-none focus-visible:ring-4 focus-visible:ring-app-focus/20 active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50;
   }
 
   /* Acción principal: guardar, crear, confirmar, incrementar */
@@ -122,7 +162,7 @@
 
   /* Acción destructiva: eliminar, borrar checklist, cerrar cuenta */
   .btn-danger {
-    @apply bg-app-danger text-white shadow-lg shadow-app-danger/20 hover:brightness-90;
+    @apply bg-app-danger text-white shadow-lg shadow-app-danger/25 hover:bg-red-700 hover:shadow-app-danger/35;
   }
 
   /* Acción sutil: botones de icono, links visuales, toolbar */

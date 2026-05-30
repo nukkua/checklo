@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { useCoupleStore } from '@/stores/couple';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const userStore = useUserStore();
 const authStore = useAuthStore();
+const coupleStore = useCoupleStore();
 const { name, email, password, acceptTerms, validSignUp } = storeToRefs(userStore);
 const { loading, errorMessage, successMessage } = storeToRefs(authStore);
 const { handleSignUp, clearMessages } = authStore;
@@ -13,21 +17,28 @@ const { handleSignUp, clearMessages } = authStore;
 
 onMounted(() => {
   clearMessages();
+
+  const invite = route.query.invite;
+  const token = Array.isArray(invite) ? invite[0] : invite;
+
+  if (token) {
+    coupleStore.inviteToken = token;
+  }
 })
 
 </script>
 <template>
   <section
-    class="-m-6 flex min-h-screen items-stretch justify-center md:m-0 md:min-h-[calc(100vh-3rem)] md:items-center md:px-4 md:py-10">
+    class="-mx-4 -my-5 flex min-h-svh items-stretch justify-center sm:-m-6 md:m-0 md:min-h-[calc(100svh-3rem)] md:items-center md:px-4 md:py-10">
     <div
-      class="grid min-h-screen w-full overflow-hidden bg-app-surface md:min-h-0 md:max-w-5xl
-      md:rounded-4xl md:border md:border-app-border md:shadow-2xl md:shadow-app-primary/10 md:grid-cols-[0.95fr_1.05fr]">
-      <div class="flex min-h-screen items-center p-6 sm:p-8 md:min-h-0 lg:p-12">
+      class="grid min-h-svh w-full overflow-hidden bg-app-surface md:min-h-0 md:max-w-5xl
+      md:rounded-4xl md:border md:border-app-border md:shadow-2xl md:shadow-app-primary/10 md:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)]">
+      <div class="flex min-h-svh items-center px-5 py-8 sm:p-8 md:min-h-0 lg:p-12">
         <div class="mx-auto w-full max-w-md animate-slide-up">
           <div class="mb-8 space-y-2 text-center md:text-left">
             <p class="text-sm font-bold uppercase tracking-[0.24em] text-app-primary">Únete a Checklo</p>
-            <h2 class="text-3xl font-extrabold text-app-text">Crea tu cuenta</h2>
-            <p class="text-app-text-muted">Empieza a organizar tus rutinas y pendientes en minutos
+            <h2 class="text-3xl font-extrabold text-app-text sm:text-4xl md:text-3xl">Crea tu cuenta</h2>
+            <p class="text-pretty text-app-text-muted">Empieza a organizar tus rutinas y pendientes en minutos
               con tu pareja.</p>
           </div>
 
@@ -75,7 +86,10 @@ onMounted(() => {
 
           <p class="mt-8 text-center text-sm text-app-text-muted">
             ¿Ya tienes cuenta?
-            <RouterLink class="font-extrabold text-app-primary hover:text-app-primary-hover" to="/auth/login">
+            <RouterLink
+              class="font-extrabold text-app-primary hover:text-app-primary-hover"
+              :to="{ path: '/login', query: coupleStore.inviteToken ? { invite: coupleStore.inviteToken } : undefined }"
+            >
               Iniciar sesión
             </RouterLink>
           </p>

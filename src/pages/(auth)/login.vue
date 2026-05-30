@@ -1,10 +1,14 @@
 <script setup lang="ts">
 import { useAuthStore } from '@/stores/auth';
+import { useCoupleStore } from '@/stores/couple';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { onMounted } from 'vue';
+import { useRoute } from 'vue-router';
 
+const route = useRoute();
 const userStore = useUserStore();
+const coupleStore = useCoupleStore();
 const { email, password, validLogin } = storeToRefs(userStore);
 
 const authStore = useAuthStore();
@@ -13,14 +17,21 @@ const { handleLogin, clearMessages } = authStore;
 
 onMounted(() => {
   clearMessages();
+
+  const invite = route.query.invite;
+  const token = Array.isArray(invite) ? invite[0] : invite;
+
+  if (token) {
+    coupleStore.inviteToken = token;
+  }
 })
 
 </script>
 <template>
   <section
-    class="-m-6 flex min-h-screen items-stretch justify-center md:m-0 md:min-h-[calc(100vh-3rem)] md:items-center md:px-4 md:py-10">
+    class="-mx-4 -my-5 flex min-h-svh items-stretch justify-center sm:-m-6 md:m-0 md:min-h-[calc(100svh-3rem)] md:items-center md:px-4 md:py-10">
     <div
-      class="grid min-h-screen w-full overflow-hidden bg-app-surface md:min-h-0 md:max-w-5xl md:rounded-[2rem] md:border md:border-app-border md:shadow-2xl md:shadow-app-primary/10 md:grid-cols-[1.05fr_0.95fr]">
+      class="grid min-h-svh w-full overflow-hidden bg-app-surface md:min-h-0 md:max-w-5xl md:rounded-[2rem] md:border md:border-app-border md:shadow-2xl md:shadow-app-primary/10 md:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
       <aside class="relative hidden bg-app-primary p-10 text-app-text-inverse md:flex md:flex-col md:justify-between">
         <div
           class="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgb(197_176_205_/_0.45),transparent_32%),radial-gradient(circle_at_85%_70%,rgb(243_226_212_/_0.22),transparent_30%)]" />
@@ -49,12 +60,12 @@ onMounted(() => {
         </div>
       </aside>
 
-      <div class="flex min-h-screen items-center p-6 sm:p-8 md:min-h-0 lg:p-12">
+      <div class="flex min-h-svh items-center px-5 py-8 sm:p-8 md:min-h-0 lg:p-12">
         <div class="mx-auto w-full max-w-md animate-slide-up">
           <div class="mb-8 space-y-2 text-center md:text-left">
             <p class="text-sm font-bold uppercase tracking-[0.24em] text-app-primary">Bienvenido</p>
-            <h2 class="text-3xl font-extrabold text-app-text">Inicia sesión</h2>
-            <p class="text-app-text-muted">Entra para continuar gestionando tus checklists.</p>
+            <h2 class="text-3xl font-extrabold text-app-text sm:text-4xl md:text-3xl">Inicia sesión</h2>
+            <p class="text-pretty text-app-text-muted">Entra para continuar gestionando tus checklists.</p>
           </div>
 
           <form class="space-y-5">
@@ -91,7 +102,7 @@ onMounted(() => {
 
           <p class="mt-8 text-center text-sm text-app-text-muted">
             ¿No tienes cuenta?
-            <RouterLink class="font-extrabold text-app-primary hover:text-app-primary-hover" to="/auth/signup">
+            <RouterLink class="font-extrabold text-app-primary hover:text-app-primary-hover" to="/signup">
               Crear cuenta
             </RouterLink>
           </p>

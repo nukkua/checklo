@@ -1,6 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 import { useUserStore } from './user'
+import { useCoupleStore } from './couple'
 import { useRouter } from 'vue-router'
 
 const server = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
@@ -33,6 +34,7 @@ async function requestAuth(path: string, body: Record<string, string>) {
 export const useAuthStore = defineStore('auth', () => {
   const router = useRouter()
   const userStore = useUserStore()
+  const coupleStore = useCoupleStore()
   const loading = ref(false)
   const checking = ref(false)
   const checked = ref(false)
@@ -58,6 +60,10 @@ export const useAuthStore = defineStore('auth', () => {
       })
 
       successMessage.value = 'Cuenta creada correctamente.'
+      router.push({
+        name: '/(auth)/login',
+        query: coupleStore.inviteToken ? { invite: coupleStore.inviteToken } : undefined,
+      })
       return data
     } catch (error) {
       errorMessage.value = 'No se pudo crear la cuenta.'
@@ -103,6 +109,11 @@ export const useAuthStore = defineStore('auth', () => {
       successMessage.value = 'Sesión iniciada correctamente.'
       user.value = data?.user ?? data ?? true
       checked.value = true
+
+      if (coupleStore.inviteToken.trim()) {
+        await coupleStore.joinCouple()
+      }
+
       router.push({ name: '/(home)/' })
     } catch (error) {
       user.value = null
@@ -110,6 +121,20 @@ export const useAuthStore = defineStore('auth', () => {
       errorMessage.value = 'No se pudo iniciar sesión.'
     } finally {
       loading.value = false
+    }
+  }
+
+  const handleLogout = async () => {
+    clearMessages()
+    loading.value = true
+
+    try {
+      await requestAuth('/auth/logout', {})
+    } finally {
+      user.value = null
+      checked.value = true
+      loading.value = false
+      router.push({ name: '/(auth)/login' })
     }
   }
 
@@ -125,5 +150,6 @@ export const useAuthStore = defineStore('auth', () => {
     checkSession,
     handleSignUp,
     handleLogin,
+    handleLogout,
   }
 })

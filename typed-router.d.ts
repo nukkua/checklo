@@ -51,11 +51,19 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       Record<never, never>,
       | '/(home)/'
+      | '/(home)/calendar'
       | '/(home)/me'
     >,
     '/(home)/': RouteRecordInfo<
       '/(home)/',
       '/',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/(home)/calendar': RouteRecordInfo<
+      '/(home)/calendar',
+      '/calendar',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -96,6 +104,7 @@ declare module 'vue-router/auto-routes' {
       routes:
         | '/(home)'
         | '/(home)/'
+        | '/(home)/calendar'
         | '/(home)/me'
       views:
         | 'default'
@@ -103,6 +112,12 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(home)/index.vue': {
       routes:
         | '/(home)/'
+      views:
+        | never
+    }
+    'src/pages/(home)/calendar.vue': {
+      routes:
+        | '/(home)/calendar'
       views:
         | never
     }

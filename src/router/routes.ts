@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/stores/auth'
+import { useCoupleStore } from '@/stores/couple'
 import { createRouter, createWebHistory } from 'vue-router'
 import { routes, handleHotUpdate } from 'vue-router/auto-routes'
 
@@ -9,6 +10,14 @@ export const router = createRouter({
 
 router.beforeEach(async (to) => {
   const auth = useAuthStore()
+  const coupleStore = useCoupleStore()
+
+  const invite = to.query.invite
+  const token = Array.isArray(invite) ? invite[0] : invite
+
+  if (token) {
+    coupleStore.inviteToken = token
+  }
 
   if (!auth.checked) {
     await auth.checkSession()
@@ -26,7 +35,7 @@ router.beforeEach(async (to) => {
   }
 
   if (isAuthPage && auth.isLoggedIn) {
-    return { name: '/(home)/' }
+    return { name: '/(home)/', query: token ? { invite: token } : undefined }
   }
 })
 
