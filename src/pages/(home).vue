@@ -44,13 +44,10 @@ definePage({
         </RouterLink>
       </div>
 
-      <button type="button" class="hidden btn-secondary md:inline-flex" @click="handleLogout">
-        <LogOut :stroke-width="1.5" :size="19" />
-      </button>
 
       <button
           type="button"
-          class="relative grid size-11 shrink-0 cursor-pointer place-items-center overflow-hidden rounded-2xl border border-app-border bg-app-surface-muted/45 text-app-text shadow-lg shadow-brand-ink/5 transition duration-300 hover:-translate-y-0.5 hover:border-app-primary hover:bg-app-primary hover:text-app-text-inverse sm:size-12 md:hidden"
+          class="relative grid size-11 shrink-0 cursor-pointer place-items-center overflow-hidden rounded-2xl border border-app-border  text-app-text shadow-lg shadow-brand-ink/5 transition duration-300 hover:-translate-y-0.5 hover:border-app-primary hover:bg-app-primary hover:text-app-text-inverse sm:size-12 md:hidden"
                  :aria-expanded="menuOpen"
                                  aria-label="Abrir menú"
                                              @click="menuOpen = !menuOpen"
@@ -125,7 +122,7 @@ definePage({
       </Transition>
     </nav>
 
-    <main class="min-w-0 flex-1 transition-[filter] duration-200 ease-out" :class="menuOpen ? 'blur-[1.5px]' : 'blur-0'">
+    <main class="min-w-0 flex-1 transition-[filter] duration-200 ease-out pb-10" :class="menuOpen ? 'blur-[1.5px]' : 'blur-0'">
       <router-view />
     </main>
   </div>
