@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
-const server = import.meta.env.VITE_API_URL ?? 'http://192.168.100.184:8080'
+const server = import.meta.env.VITE_API_URL ?? 'https://checkco.onrender.com'
 
 const couplePath = import.meta.env.VITE_COUPLE_PATH ?? '/couples/me'
 const createCouplePath = import.meta.env.VITE_CREATE_COUPLE_PATH ?? '/couples'

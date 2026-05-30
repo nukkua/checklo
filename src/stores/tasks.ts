@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
 import { defineStore } from 'pinia'
 
-const server = import.meta.env.VITE_API_URL ?? 'http://192.168.100.184:8080'
+const server = import.meta.env.VITE_API_URL ?? 'https://checkco.onrender.com'
 
 export type TaskPeriod = 'daily' | 'weekly' | 'monthly'
 

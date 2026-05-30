@@ -4,7 +4,7 @@ import { useUserStore } from './user'
 import { useCoupleStore } from './couple'
 import { useRouter } from 'vue-router'
 
-const server = import.meta.env.VITE_API_URL ?? 'http://localhost:8080'
+const server = import.meta.env.VITE_API_URL ?? 'https://checkco.onrender.com'
 const mePath = import.meta.env.VITE_AUTH_ME_PATH ?? '/auth/me'
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))
 
